@@ -5,9 +5,16 @@ press Enter to toggle, and keep disabled displays in the list so they can be
 turned back on. No BetterDisplay, Homebrew, administrator access, or background
 service required.
 
+![Display Switch showing three displays in Raycast](media/raycast-display-switch.png)
+
+*Display Switch running in Raycast on a three-display Mac.*
+
+<details>
+<summary>Tinycast screenshot</summary>
+
 ![Display Switch showing three displays in Tinycast](media/tinycast-display-switch.png)
 
-*Display Switch running in Tinycast on a three-display Mac.*
+</details>
 
 ## Commands
 
@@ -33,12 +40,13 @@ sleep behavior, and wake support depend on the display, cable, and macOS version
 
 The bundle includes command JavaScript and native helpers for Apple Silicon and
 Intel. No build tools are needed to import it. Tinycast's GitHub registry build
-runs `ray build` directly and skips this project's native compilation script;
-use the release bundle or build locally and add `dist` from a folder.
+runs `ray build` directly; the source distribution includes traceable, signed
+helpers in `assets/`, so no native compilation is needed during installation.
+Once approved in the Raycast Store, it can also be installed from that registry.
 
 ## Install in Raycast
 
-This extension has not been submitted to the Raycast Store. For a local install:
+Store review is pending. For a local install:
 
 ```sh
 git clone https://github.com/niechen/display-switch.git
@@ -47,8 +55,9 @@ npm ci --ignore-scripts
 npm run dev
 ```
 
-Requires macOS 13+, Node.js 22+, and Xcode Command Line Tools for compilation.
-`npm run dev` compiles both native helpers and imports the extension into Raycast.
+Requires macOS 13+ and Node.js 22+ for a local source install. `npm run dev`
+verifies the bundled native helpers and imports the extension into Raycast.
+Xcode Command Line Tools are needed only when rebuilding the Swift helper.
 
 ## Development
 
@@ -61,8 +70,12 @@ npm run bundle
 
 `dist/` is the complete importable extension. The zip contains that folder.
 Native binaries are compiled from `native/DisplayControl.swift`, ad-hoc signed,
-and included in release bundles. They are not committed as opaque binaries.
-The macOS CI workflow builds and uploads the same bundle.
+and included alongside their full source in both the source distribution and
+release bundles. `native/build-manifest.json` records the source and binary
+SHA-256 hashes, compiler version, and deployment target. `npm run build` checks
+these hashes; `npm run build:native` rebuilds the helpers and refreshes the
+manifest. See [native/README.md](native/README.md) for provenance. The macOS CI
+workflow rebuilds the helpers from source before packaging.
 
 ## Safety and recovery
 

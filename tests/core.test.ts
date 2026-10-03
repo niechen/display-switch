@@ -1,11 +1,6 @@
 import assert from "node:assert/strict";
 import { test } from "node:test";
-import {
-  Display,
-  DisplayController,
-  parseDisplays,
-  resolveDisplay,
-} from "../src/core";
+import { Display, DisplayController, parseDisplays, resolveDisplay } from "../src/core";
 const one: Display = {
   id: "11111111-1111-1111-1111-111111111111",
   name: "Studio Display",
@@ -29,13 +24,8 @@ function fake(initial: Display[]) {
   const controller = new DisplayController(async (args) => {
     calls.push(args);
     if (args[0] === "set")
-      state = state.map((display) =>
-        display.id === args[1]
-          ? { ...display, enabled: args[2] === "on" }
-          : display,
-      );
-    if (args[0] === "enable-all")
-      state = state.map((display) => ({ ...display, enabled: true }));
+      state = state.map((display) => (display.id === args[1] ? { ...display, enabled: args[2] === "on" } : display));
+    if (args[0] === "enable-all") state = state.map((display) => ({ ...display, enabled: true }));
     return JSON.stringify(state);
   });
   return { controller, calls };
@@ -58,14 +48,8 @@ test("cannot switch off last active display", async () => {
   assert.ok(calls.every((args) => args[0] === "list"));
 });
 test("duplicate names require UUID", () => {
-  assert.throws(
-    () => resolveDisplay([one, { ...two, name: one.name }], one.name),
-    /Several/,
-  );
-  assert.equal(
-    resolveDisplay([one, { ...two, name: one.name }], two.id).id,
-    two.id,
-  );
+  assert.throws(() => resolveDisplay([one, { ...two, name: one.name }], one.name), /Several/);
+  assert.equal(resolveDisplay([one, { ...two, name: one.name }], two.id).id, two.id);
 });
 test("disconnected target cannot mutate", async () => {
   const { controller, calls } = fake([one]);
@@ -97,9 +81,7 @@ test("recovery enables disabled displays", async () => {
   assert.ok((await controller.enableAll()).every((display) => display.enabled));
 });
 test("successful exit without changed state is a failure", async () => {
-  const controller = new DisplayController(async () =>
-    JSON.stringify([one, two]),
-  );
+  const controller = new DisplayController(async () => JSON.stringify([one, two]));
   await assert.rejects(controller.set(one.id, false), /could not be verified/);
 });
 test("idempotent requested state skips mutation", async () => {

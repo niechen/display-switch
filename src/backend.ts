@@ -11,25 +11,17 @@ export const controller = new DisplayController(
         reject(new Error(`Unsupported architecture: ${arch}`));
         return;
       }
-      const helper = join(
-        environment.assetsPath,
-        `display-control-${arch === "x64" ? "x86_64" : "arm64"}`,
-      );
-      execFile(
-        helper,
-        args,
-        { timeout: 15000, maxBuffer: 1024 * 1024 },
-        (error, stdout, stderr) => {
-          if (error)
-            reject(
-              new Error(
-                stderr.trim() ||
-                  `Unable to run the display helper. Rebuild or reinstall Display Switch. ${error.message}`,
-              ),
-            );
-          else resolve(stdout);
-        },
-      );
+      const helper = join(environment.assetsPath, `display-control-${arch === "x64" ? "x86_64" : "arm64"}`);
+      execFile(helper, args, { timeout: 15000, maxBuffer: 1024 * 1024 }, (error, stdout, stderr) => {
+        if (error)
+          reject(
+            new Error(
+              stderr.trim() ||
+                `Unable to run the display helper. Rebuild or reinstall Display Switch. ${error.message}`,
+            ),
+          );
+        else resolve(stdout);
+      });
     }),
 );
 

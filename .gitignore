@@ -1,6 +1,6 @@
 node_modules/
 dist/
 *.zip
-assets/display-control-*
+*.zip.sha256
 raycast-env.d.ts
 .DS_Store

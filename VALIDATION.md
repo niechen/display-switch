@@ -29,9 +29,11 @@ screens. Recovery was fixed by persisting the numeric display identity before
 mutating, flushing it to disk, and checking the full SkyLight inventory. The
 corrected same-process and separate-process off/on tests both passed.
 
-Intel helper was compiled but not executed on an Intel Mac. Raycast itself was
-not installed on this machine; its production build and API types were checked,
-while end-to-end launcher execution was tested in the installed Tinycast.
+Intel helper was compiled but not executed on an Intel Mac. Raycast 2.6.2 was installed from the official Raycast download for the store
+submission. Its distribution build was run in the launcher, the built-in display
+was toggled Off and On with Enter, and both states were confirmed in Raycast
+and by native inventory readback. All displays were restored to On.
+End-to-end execution was also tested in Tinycast.
 Physical unplug/replug while a screen is disabled, lid-close transitions,
 WindowServer restart, and different monitor models were not tested.
 
