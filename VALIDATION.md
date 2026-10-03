@@ -55,8 +55,9 @@ screen and keep another screen active.
   each returns valid JSON with enabled=true and a layout warning.
 - Controller regression confirms set and enable-all accept the confirmed On
   state alongside a warning; non-string warnings remain invalid.
-- After rebuilding both helpers, repeated the real built-in off/on cycle;
-  a separate process could still recover it and its resolution was restored.
+- After rebuilding both helpers, live inventory returned the built-in display
+  as On. The hardware test stopped before mutation because only one display
+  was connected; a new physical off/on cycle was not performed.
 - The list refreshes from macOS even after a failed command, to avoid stale state.
 
 UUID failure and layout-error cases were injected in native tests; these were
