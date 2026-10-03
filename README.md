@@ -5,6 +5,10 @@ press Enter to toggle, and keep disabled displays in the list so they can be
 turned back on. No BetterDisplay, Homebrew, administrator access, or background
 service required.
 
+![Display Switch showing three displays in Tinycast](media/tinycast-display-switch.png)
+
+*Display Switch running in Tinycast on a three-display Mac.*
+
 ## Commands
 
 | Command | What it does |
