@@ -17,6 +17,7 @@ jobs:
       - run: npm run check
       - run: npm run test:native
       - run: npm run build:native
+      - run: npm run verify:native-source
       - run: npm run build
       - run: npm run bundle
       - uses: actions/upload-artifact@v4
